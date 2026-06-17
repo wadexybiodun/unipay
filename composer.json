@@ -3,6 +3,6 @@
     "description": "UniPay OTP email service using PHPMailer",
     "type": "project",
     "require": {
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^7.1"
     }
 }

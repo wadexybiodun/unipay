@@ -136,10 +136,10 @@
 
   // ===== LOGIN =====
   function initLogin() {
-    // If wallet already created, show step 4
-    if (state.walletCreated) {
-      showStep(4);
-      document.getElementById('walletAddress').textContent = state.address;
+    // If wallet already created, show a banner instead of step 4
+    var banner = document.getElementById('continueBanner');
+    if (state.walletCreated && banner) {
+      banner.style.display = 'block';
     }
   }
 

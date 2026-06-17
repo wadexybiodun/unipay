@@ -1,0 +1,8 @@
+{
+    "name": "unipay/otp-service",
+    "description": "UniPay OTP email service using PHPMailer",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

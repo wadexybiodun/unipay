@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receive — UniPay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <a href="app.html" class="nav-logo">
+        <span class="logo-icon">U</span>
+        UniPay
+      </a>
+      <nav class="sidebar-nav">
+        <a href="app.html">📊 Dashboard</a>
+        <a href="send.html">💸 Send</a>
+        <a href="receive.html" class="active">📥 Receive</a>
+        <a href="transactions.html">📋 Transactions</a>
+      </nav>
+      <div style="padding: 12px; border-top: 1px solid var(--glass-border); margin-top: auto;">
+        <a href="index.html" class="btn btn-ghost btn-block btn-sm" style="justify-content:center;">Sign Out</a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-header" style="padding-top:0; text-align:left;">
+        <h1>Receive Crypto</h1>
+        <p>Share your address to receive from any chain</p>
+      </div>
+
+      <div class="receive-container">
+        <div class="receive-card glass">
+          <h2>Your UniPay Address</h2>
+          <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">
+            This address works on all supported networks. Senders don't need to pick a chain.
+          </p>
+
+          <div class="qr-container" id="qrContainer">
+            <canvas id="qrCanvas"></canvas>
+          </div>
+
+          <div class="wallet-display" id="receiveAddress">0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18</div>
+
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-primary" onclick="copyAddress()" style="flex:1; justify-content:center;" id="copyBtn">
+              📋 Copy Address
+            </button>
+            <button class="btn btn-ghost" onclick="shareAddress()" style="flex:1; justify-content:center;">
+              📤 Share
+            </button>
+          </div>
+        </div>
+
+        <div class="send-card glass" style="padding:20px;">
+          <h3 style="font-size:15px; margin-bottom:12px;">Supported Networks</h3>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <span class="chain-badge">⟠ Ethereum</span>
+            <span class="chain-badge">◈ Arbitrum</span>
+            <span class="chain-badge">◉ Base</span>
+            <span class="chain-badge">⬡ Polygon</span>
+            <span class="chain-badge">◆ Optimism</span>
+            <span class="chain-badge">⎔ Avalanche</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-dark); margin-top:12px;">
+            Funds sent from any supported network are automatically routed to your Smart Wallet.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <nav class="mobile-bottom-nav">
+    <a href="app.html"><span>📊</span>Dashboard</a>
+    <a href="send.html"><span>💸</span>Send</a>
+    <a href="receive.html" class="active"><span>📥</span>Receive</a>
+    <a href="transactions.html"><span>📋</span>Transactions</a>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send — UniPay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <a href="app.html" class="nav-logo">
+        <span class="logo-icon">U</span>
+        UniPay
+      </a>
+      <nav class="sidebar-nav">
+        <a href="app.html">📊 Dashboard</a>
+        <a href="send.html" class="active">💸 Send</a>
+        <a href="receive.html">📥 Receive</a>
+        <a href="transactions.html">📋 Transactions</a>
+      </nav>
+      <div style="padding: 12px; border-top: 1px solid var(--glass-border); margin-top: auto;">
+        <a href="index.html" class="btn btn-ghost btn-block btn-sm" style="justify-content:center;">Sign Out</a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-header" style="padding-top:0; text-align:left;">
+        <h1>Send Crypto</h1>
+        <p>Cross-chain payment with Smart Routing</p>
+      </div>
+
+      <div class="send-form">
+        <div class="send-card glass">
+          <div class="input-group">
+            <label>Recipient</label>
+            <input type="text" id="sendRecipient" placeholder="Enter address (0x...) or ENS name">
+          </div>
+
+          <div class="input-group">
+            <label>Amount</label>
+            <input type="number" class="amount-display" id="sendAmount" placeholder="0.00" step="0.001" style="font-size:32px; font-weight:800; background:var(--surface-light); border:1px solid var(--glass-border); border-radius:var(--radius-sm); padding:14px 16px;">
+            <p class="amount-usd" id="sendUsd">≈ $0.00 USD</p>
+          </div>
+
+          <div class="input-group">
+            <label>Token</label>
+            <div class="token-selector" id="tokenSelector" onclick="toggleTokenDropdown()">
+              <div class="token-icon" style="background:rgba(98,126,234,0.15); color:#627EEA;">ETH</div>
+              <span style="flex:1;" id="selectedToken">Ethereum (ETH)</span>
+              <span style="color:var(--text-dark);">▼</span>
+            </div>
+            <div id="tokenDropdown" style="display:none; background:var(--surface-light); border:1px solid var(--glass-border); border-radius:var(--radius-sm); margin-top:4px; overflow:hidden;">
+              <div style="padding:12px 16px; cursor:pointer; transition:var(--transition); display:flex; align-items:center; gap:10px;" onclick="selectToken('ETH', 'Ethereum (ETH)', '#627EEA')" class="token-option">
+                <span style="width:28px;height:28px;border-radius:50%;background:rgba(98,126,234,0.15);color:#627EEA;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">ETH</span>
+                Ethereum (ETH)
+              </div>
+              <div style="padding:12px 16px; cursor:pointer; transition:var(--transition); display:flex;align-items:center;gap:10px;" onclick="selectToken('USDC', 'USD Coin (USDC)', '#2775CA')" class="token-option">
+                <span style="width:28px;height:28px;border-radius:50%;background:rgba(39,117,202,0.15);color:#2775CA;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">USDC</span>
+                USD Coin (USDC)
+              </div>
+              <div style="padding:12px 16px; cursor:pointer; transition:var(--transition); display:flex;align-items:center;gap:10px;" onclick="selectToken('MATIC', 'Polygon (MATIC)', '#8247E5')" class="token-option">
+                <span style="width:28px;height:28px;border-radius:50%;background:rgba(130,71,229,0.15);color:#8247E5;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">POL</span>
+                Polygon (MATIC)
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-block btn-lg" onclick="initiateSend()" id="sendBtn">
+            Send with Smart Route
+          </button>
+        </div>
+
+        <div class="send-card glass" style="padding:20px;">
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">Smart Routing Estimates</p>
+          <div style="display:flex; justify-content:space-between; font-size:13px; padding:4px 0;">
+            <span style="color:var(--text-muted);">Route</span>
+            <span id="routeEstimate">Ethereum → Arbitrum</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; padding:4px 0;">
+            <span style="color:var(--text-muted);">Fee</span>
+            <span id="feeEstimate">~$0.42</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; padding:4px 0;">
+            <span style="color:var(--text-muted);">Arrival</span>
+            <span id="arrivalEstimate">~15 seconds</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <nav class="mobile-bottom-nav">
+    <a href="app.html"><span>📊</span>Dashboard</a>
+    <a href="send.html" class="active"><span>💸</span>Send</a>
+    <a href="receive.html"><span>📥</span>Receive</a>
+    <a href="transactions.html"><span>📋</span>Transactions</a>
+  </nav>
+
+  <div class="routing-overlay" id="routingOverlay">
+    <div class="routing-modal">
+      <div id="routingContent">
+        <h2>Smart Routing in Progress</h2>
+        <p>UniPay SRA is finding the optimal path</p>
+
+        <div class="route-visual" id="routeVisual">
+          <div class="route-node" id="routeEthereum">⟠ Ethereum</div>
+          <div class="route-arrow" id="arrow1">→</div>
+          <div class="route-node" id="routeBase">◉ Base</div>
+          <div class="route-arrow" id="arrow2">→</div>
+          <div class="route-node" id="routeArbitrum">◈ Arbitrum</div>
+          <div class="route-arrow" id="arrow3">→</div>
+          <div class="route-node" id="routeDelivered">✓ Delivered</div>
+        </div>
+
+        <div class="routing-progress">
+          <div class="routing-progress-bar" id="routingProgress"></div>
+        </div>
+
+        <p id="routingStatus" style="font-size:13px; color:var(--text-muted);">Analyzing blockchain paths...</p>
+      </div>
+
+      <div id="routingSuccess" style="display:none;">
+        <div class="success-screen">
+          <div class="success-icon-big">✓</div>
+          <h2>Payment Sent Successfully!</h2>
+          <p style="color:var(--text-muted); margin-bottom:20px;">Your transaction has been routed and delivered.</p>
+          <div class="success-details">
+            <div class="row">
+              <span class="label">Amount</span>
+              <span id="successAmount">0.00 ETH</span>
+            </div>
+            <div class="row">
+              <span class="label">Route</span>
+              <span id="successRoute">Ethereum → Arbitrum</span>
+            </div>
+            <div class="row">
+              <span class="label">Fee</span>
+              <span id="successFee">~$0.42</span>
+            </div>
+            <div class="row">
+              <span class="label">Tx ID</span>
+              <span id="successTxId" style="font-family:monospace; font-size:12px;">0x742d...</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; justify-content:center;">
+            <button class="btn btn-primary" onclick="closeRouting(); window.location='transactions.html'">View Transaction</button>
+            <button class="btn btn-ghost" onclick="closeRouting()">Back to Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

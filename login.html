@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — UniPay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-container">
+      <div class="login-card glass" id="loginCard">
+        <div class="login-header">
+          <div class="logo-icon">U</div>
+          <h1>Welcome to UniPay</h1>
+          <p>Smart cross-chain payments</p>
+        </div>
+
+        <div id="loginStep1">
+          <div class="input-group">
+            <label>Email address</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <button class="btn btn-primary btn-block btn-lg" id="sendOtpBtn" onclick="sendOtp()">Continue with Email</button>
+
+          <div class="social-buttons">
+            <p class="social-label">Or continue with</p>
+            <div class="social-row">
+              <button class="btn-social btn-social-google" onclick="socialLogin('Google')">
+                <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.54 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.77.87 7.35 2.56 10.56l7.98-5.97z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 5.97C6.51 42.62 14.62 48 24 48z"/></svg>
+                Google
+              </button>
+              <button class="btn-social btn-social-apple" onclick="socialLogin('Apple')">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                Apple
+              </button>
+            </div>
+            <div class="social-row">
+              <button class="btn-social btn-social-github" onclick="socialLogin('GitHub')">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+              </button>
+              <button class="btn-social btn-social-x" onclick="socialLogin('X')">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                X
+              </button>
+            </div>
+          </div>
+
+          <div class="divider">or</div>
+          <button class="btn btn-ghost btn-block" onclick="passkeyLogin()">
+            <span>🔑</span> Sign in with Passkey
+          </button>
+          <p style="text-align:center; margin-top:16px; font-size:13px; color:var(--text-dark);">
+            Don't have a wallet? We'll create one automatically.
+          </p>
+        </div>
+
+        <div id="loginStep2" style="display:none;">
+          <p style="text-align:center; margin-bottom:16px; font-size:14px; color:var(--text-muted);">
+            Enter the 6-digit code sent to <strong id="otpEmailDisplay" style="color:var(--text);"></strong>
+          </p>
+
+          <div id="otpDemoBox" style="display:none; background: rgba(250,204,21,0.1); border: 1px solid rgba(250,204,21,0.3); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 16px; text-align: center;">
+            <p style="font-size:12px; color:var(--accent); margin-bottom:4px;">⚡ Demo Mode — Email server unavailable</p>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Use this code to sign in:</p>
+            <div id="otpDemoCode" style="font-size:28px; font-weight:800; letter-spacing:6px; color:var(--accent); font-family:monospace;">------</div>
+          </div>
+
+          <div class="otp-container" id="otpContainer">
+            <input class="otp-input" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+            <input class="otp-input" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input class="otp-input" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input class="otp-input" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input class="otp-input" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+            <input class="otp-input" type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+          </div>
+          <button class="btn btn-primary btn-block btn-lg" onclick="verifyOtp()">Verify Code</button>
+          <p style="text-align:center; margin-top:12px; font-size:13px;">
+            <a href="#" onclick="resetLogin()">Back to login</a>
+          </p>
+        </div>
+
+        <div id="loginStep3" style="display:none;">
+          <div class="wallet-creation">
+            <div class="wallet-animation" id="walletAnimation">
+              <div class="wallet-ring"></div>
+              <div class="wallet-ring"></div>
+              <div class="wallet-ring"></div>
+              <div class="wallet-icon">⧫</div>
+            </div>
+            <h2>Creating your Smart Wallet...</h2>
+            <p>Deploying cross-chain accounts</p>
+            <div class="routing-progress" style="margin: 0 auto 16px; max-width: 280px;">
+              <div class="routing-progress-bar" id="walletProgress"></div>
+            </div>
+            <p id="walletStatus" style="font-size:12px; color:var(--text-dark);">Initializing...</p>
+          </div>
+        </div>
+
+        <div id="loginStep4" style="display:none;">
+          <div class="wallet-created">
+            <div class="success-icon">✓</div>
+            <h2>Smart Wallet Created!</h2>
+            <p style="color:var(--text-muted); font-size:14px;">Your cross-chain wallet is ready</p>
+            <div class="wallet-address" id="walletAddress">0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18</div>
+            <button class="btn btn-accent btn-block btn-lg" onclick="enterApp()">Enter App</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

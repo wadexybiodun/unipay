@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — UniPay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="app.html" class="nav-logo">
+        <span class="logo-icon">U</span>
+        UniPay
+      </a>
+      <nav class="sidebar-nav">
+        <a href="app.html" class="active">
+          <span>📊</span> Dashboard
+        </a>
+        <a href="send.html">
+          <span>💸</span> Send
+        </a>
+        <a href="receive.html">
+          <span>📥</span> Receive
+        </a>
+        <a href="transactions.html">
+          <span>📋</span> Transactions
+        </a>
+      </nav>
+      <div style="padding: 12px; border-top: 1px solid var(--glass-border); margin-top: auto;">
+        <a href="index.html" class="btn btn-ghost btn-block btn-sm" style="justify-content:center;">Sign Out</a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="app-topbar">
+        <div>
+          <h1>Dashboard</h1>
+          <p style="color:var(--text-muted); font-size:14px;">Welcome back, Explorer</p>
+        </div>
+        <div class="app-topbar-right">
+          <button class="btn btn-ghost btn-sm" onclick="openSendModal()" style="display:none;" id="mobileSendBtn">Send</button>
+          <div class="user-avatar">U</div>
+        </div>
+      </div>
+
+      <div class="balance-card glass" id="balanceCard">
+        <div class="balance-label">Total Balance (across all chains)</div>
+        <div class="balance-amount" id="totalBalance">$0.00</div>
+        <div class="balance-change">↑ 2.4% ($127.32)</div>
+        <div class="balance-chains">
+          <span class="chain-badge">⟠ Ethereum: <span id="ethBalance">0.00</span> ETH</span>
+          <span class="chain-badge">◈ Arbitrum: <span id="arbBalance">0.00</span> ETH</span>
+          <span class="chain-badge">◉ Base: <span id="baseBalance">0.00</span> ETH</span>
+          <span class="chain-badge">⬡ Polygon: <span id="polyBalance">0.00</span> MATIC</span>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <a href="send.html" class="action-card glass">
+          <div class="action-icon" style="background: rgba(124,58,237,0.15); color: var(--primary-light);">↑</div>
+          <h3>Send</h3>
+          <p>Cross-chain transfer</p>
+        </a>
+        <a href="receive.html" class="action-card glass">
+          <div class="action-icon" style="background: rgba(16,185,129,0.15); color: var(--success);">↓</div>
+          <h3>Receive</h3>
+          <p>Get crypto from anyone</p>
+        </a>
+        <a href="transactions.html" class="action-card glass">
+          <div class="action-icon" style="background: rgba(34,211,238,0.15); color: var(--secondary);">⟳</div>
+          <h3>Transactions</h3>
+          <p>View all activity</p>
+        </a>
+      </div>
+
+      <div class="section-header">
+        <h2>Recent Activity</h2>
+        <a href="transactions.html" style="font-size:13px;">View all</a>
+      </div>
+      <div class="activity-list" id="recentActivity">
+        <div style="text-align:center; padding:32px; color:var(--text-muted); font-size:14px;" id="noActivity">
+          No recent transactions. Send your first payment!
+        </div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-card glass">
+          <h3><span>🤖</span> UniPay AI Assistant</h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Ask me to send crypto. Example: "Send 0.02 ETH to John"</p>
+          <div class="ai-input-row">
+            <input type="text" id="aiInput" placeholder="Type a command..." onkeydown="if(event.key==='Enter') aiProcess()">
+            <button onclick="aiProcess()">Send</button>
+          </div>
+          <div class="ai-response" id="aiResponse"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <nav class="mobile-bottom-nav">
+    <a href="app.html" class="active"><span>📊</span>Dashboard</a>
+    <a href="send.html"><span>💸</span>Send</a>
+    <a href="receive.html"><span>📥</span>Receive</a>
+    <a href="transactions.html"><span>📋</span>Transactions</a>
+  </nav>
+
+  <div class="modal-overlay" id="sendModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Quick Send</h2>
+        <button class="modal-close" onclick="closeSendModal()">✕</button>
+      </div>
+      <div class="input-group">
+        <label>Recipient Address</label>
+        <input type="text" id="modalRecipient" placeholder="0x... or ENS name">
+      </div>
+      <div class="input-group">
+        <label>Amount</label>
+        <input type="number" id="modalAmount" placeholder="0.00" step="0.001">
+      </div>
+      <div class="input-group">
+        <label>Token</label>
+        <select id="modalToken">
+          <option value="ETH">ETH</option>
+          <option value="USDC">USDC</option>
+          <option value="MATIC">MATIC</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="quickSend()">Send</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

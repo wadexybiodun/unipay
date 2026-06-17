@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions — UniPay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <a href="app.html" class="nav-logo">
+        <span class="logo-icon">U</span>
+        UniPay
+      </a>
+      <nav class="sidebar-nav">
+        <a href="app.html">📊 Dashboard</a>
+        <a href="send.html">💸 Send</a>
+        <a href="receive.html">📥 Receive</a>
+        <a href="transactions.html" class="active">📋 Transactions</a>
+      </nav>
+      <div style="padding: 12px; border-top: 1px solid var(--glass-border); margin-top: auto;">
+        <a href="index.html" class="btn btn-ghost btn-block btn-sm" style="justify-content:center;">Sign Out</a>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="page-header" style="padding-top:0; text-align:left;">
+        <h1>Transactions</h1>
+        <p>All your cross-chain activity</p>
+      </div>
+
+      <div class="transactions-container">
+        <div class="transaction-filters" id="txFilters">
+          <button class="filter-btn active" data-filter="all" onclick="filterTx('all')">All</button>
+          <button class="filter-btn" data-filter="completed" onclick="filterTx('completed')">Completed</button>
+          <button class="filter-btn" data-filter="routed" onclick="filterTx('routed')">Routed</button>
+          <button class="filter-btn" data-filter="pending" onclick="filterTx('pending')">Pending</button>
+        </div>
+
+        <div id="transactionList">
+          <div style="text-align:center; padding:48px; color:var(--text-muted);" id="noTx">
+            <p style="font-size:18px; margin-bottom:8px;">No transactions yet</p>
+            <p style="font-size:14px;">Send your first cross-chain payment to see it here.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <nav class="mobile-bottom-nav">
+    <a href="app.html"><span>📊</span>Dashboard</a>
+    <a href="send.html"><span>💸</span>Send</a>
+    <a href="receive.html"><span>📥</span>Receive</a>
+    <a href="transactions.html" class="active"><span>📋</span>Transactions</a>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

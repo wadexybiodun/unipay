@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniPay — Cross-Chain Payments, Simplified</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">U</span>
+        UniPay
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="login.html">Sign In</a></li>
+        <li><a href="app.html" class="btn btn-primary btn-sm">Launch App</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Smart Routing Protocol (SRA) v2.0</div>
+      <h1>UniPay — Send crypto across <span>any chain</span>. No networks. No bridges. No stress.</h1>
+      <p>UniPay's Smart Routing Architecture automatically finds the fastest, cheapest path across 12+ blockchain networks. You just send — we handle the rest.</p>
+      <div class="hero-buttons">
+        <a href="login.html" class="btn btn-primary btn-lg">Get Started</a>
+        <a href="app.html" class="btn btn-secondary btn-lg">Launch App</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="problem">
+    <div class="container">
+      <h2 class="section-title">Web3 UX is broken</h2>
+      <p class="section-subtitle">Sending crypto shouldn't feel like a engineering exam. Here's what's wrong:</p>
+      <div class="problem-grid">
+        <div class="problem-card glass">
+          <div class="problem-icon" style="background: rgba(239,68,68,0.15); color: #EF4444;">!</div>
+          <h3>Network Chaos</h3>
+          <p>Users must manually switch between Ethereum, Arbitrum, Base, Optimism, and 50+ other networks. One wrong choice means lost funds.</p>
+        </div>
+        <div class="problem-card glass">
+          <div class="problem-icon" style="background: rgba(245,158,11,0.15); color: #F59E0B;">!!</div>
+          <h3>Bridge Hell</h3>
+          <p>Moving assets between chains requires third-party bridges with complex UIs, long wait times, and constant security risks from exploits.</p>
+        </div>
+        <div class="problem-card glass">
+          <div class="problem-icon" style="background: rgba(239,68,68,0.15); color: #EF4444;">!!!</div>
+          <h3>Gas Confusion</h3>
+          <p>Every network has a different gas token. Users need to hold ETH, MATIC, BNB, SOL, and more just to pay transaction fees.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: rgba(124,58,237,0.03);">
+    <div class="container">
+      <div class="solution-content">
+        <div class="solution-text">
+          <h2>Smart Routing eliminates the complexity</h2>
+          <p>UniPay's proprietary Smart Routing Architecture (SRA) analyzes every available path across 12+ chains in real time. Just enter the destination — we automatically select the optimal route based on speed, cost, and liquidity.</p>
+          <p>No network selection. No bridge interfaces. No gas tokens. One address. One balance. One experience.</p>
+          <a href="login.html" class="btn btn-primary">See How It Works</a>
+        </div>
+        <div class="solution-visual">
+          <div class="route-animation" id="demoRoute">
+            <div class="route-step active">
+              <div class="route-dot active"></div>
+              <span>Ethereum</span>
+            </div>
+            <div class="route-line active"></div>
+            <div class="route-step">
+              <div class="route-dot"></div>
+              <span>Base</span>
+            </div>
+            <div class="route-line"></div>
+            <div class="route-step">
+              <div class="route-dot"></div>
+              <span>Arbitrum</span>
+            </div>
+            <div class="route-line"></div>
+            <div class="route-step">
+              <div class="route-dot"></div>
+              <span>Delivered ✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section-title">Everything you expect from a modern fintech app</h2>
+      <p class="section-subtitle">Built for crypto, designed for humans.</p>
+      <div class="features-grid">
+        <div class="feature-card glass">
+          <div class="feature-icon" style="background: rgba(124,58,237,0.15); color: var(--primary-light);">◈</div>
+          <h3>One Balance</h3>
+          <p>See your total across all chains in a single unified balance. No more switching between wallets.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="feature-icon" style="background: rgba(34,211,238,0.15); color: var(--secondary);">⚡</div>
+          <h3>Smart Routing</h3>
+          <p>Our AI-powered engine finds the fastest and cheapest path across 12+ blockchains automatically.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="feature-icon" style="background: rgba(250,204,21,0.15); color: var(--accent);">🛡</div>
+          <h3>No Bridges</h3>
+          <p>We abstract the bridging process entirely. Send to any address on any chain — it just works.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="feature-icon" style="background: rgba(16,185,129,0.15); color: var(--success);">📱</div>
+          <h3>Venmo-like UX</h3>
+          <p>Type an amount, hit send. No network selection, no gas management, no confusion.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="feature-icon" style="background: rgba(239,68,68,0.15); color: var(--error);">🔒</div>
+          <h3>Self-Custody</h3>
+          <p>Your keys, your crypto. UniPay never holds your funds. Smart contracts handle the routing securely.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="feature-icon" style="background: rgba(124,58,237,0.15); color: var(--primary-light);">🤖</div>
+          <h3>AI Assistant</h3>
+          <p>"Send 0.05 ETH to Alice" — our AI parses natural language and executes transactions instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card glass">
+        <h2>Ready to send crypto without the headache?</h2>
+        <p>Join thousands of users who've simplified their cross-chain experience. No bridges, no networks, just sending.</p>
+        <a href="login.html" class="btn btn-accent btn-lg">Create Your Smart Wallet</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>UniPay &mdash; Smart Routing Architecture (SRA). Built for the multi-chain future.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

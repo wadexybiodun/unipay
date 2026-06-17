@@ -1,18 +1,14 @@
 <?php
-// UniPay - Send OTP Email
+// UniPay - Send OTP Email via PHPMailer
 //
-// REQUIRED SETUP for real email delivery:
-//   Option A — PHPMailer (recommended):
-//     1. Install Composer: https://getcomposer.org
-//     2. Run: composer require phpmailer/phpmailer
-//     3. Update SMTP config below (lines 60-66)
-//   Option B — PHP mail():
-//     1. Configure your php.ini SMTP settings
-//     2. That's it (less reliable, may go to spam)
+// SETUP:
+//   1. composer require phpmailer/phpmailer
+//   2. Update SMTP credentials below (lines 55-60)
+//   3. Start PHP server: php -S localhost:8000
 //
-// If NEITHER is configured, the app runs in DEMO MODE:
-//   The OTP code is returned in the API response and
-//   displayed directly on the login page.
+// USAGE:
+//   POST /send-otp.php
+//   Body: email=user@example.com&otp=123456
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -43,7 +39,6 @@ if (!preg_match('/^\d{6}$/', $otp)) {
 }
 
 // ─── SMTP CONFIGURATION ───────────────────────────────────────────
-// Update these with your real SMTP credentials for PHPMailer delivery
 $smtpHost     = 'smtp.gmail.com';
 $smtpPort     = 587;
 $smtpUsername = 'your-email@gmail.com';
@@ -55,22 +50,20 @@ $smtpFromName = 'UniPay';
 $emailSent = false;
 $method    = 'none';
 
-// ─── ATTEMPT 1: PHPMailer (via Composer) ─────────────────────────
+// ─── PHPMailer (via Composer) ──────────────────────────────────
 $autoloadPath = __DIR__ . '/vendor/autoload.php';
 if (file_exists($autoloadPath)) {
     try {
         require_once $autoloadPath;
 
-        use PHPMailer\PHPMailer\PHPMailer;
-
-        $mail = new PHPMailer(true);
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
         $mail->isSMTP();
         $mail->SMTPAuth   = true;
         $mail->Host       = $smtpHost;
         $mail->Port       = $smtpPort;
         $mail->Username   = $smtpUsername;
         $mail->Password   = $smtpPassword;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
 
         $mail->setFrom($smtpFrom, $smtpFromName);
         $mail->addAddress($email);
@@ -78,43 +71,41 @@ if (file_exists($autoloadPath)) {
 
         $mail->Subject = 'Your UniPay OTP Code';
         $mail->Body    = buildEmailHtml($otp);
-        $mail->AltBody = "Your UniPay OTP code is: $otp\n\nThis code expires in 10 minutes.";
+        $mail->AltBody = "Your UniPay OTP code is: $otp\n\nExpires in 10 minutes.";
 
         $mail->send();
         $emailSent = true;
         $method    = 'phpmailer';
-    } catch (Exception $e) {
-        $method = 'phpmailer_failed';
+    } catch (\Exception $e) {
+        $method = 'phpmailer_error: ' . $e->getMessage();
     }
 }
 
-// ─── ATTEMPT 2: PHP built-in mail() ─────────────────────────────
+// ─── PHP mail() fallback ──────────────────────────────────────
 if (!$emailSent && function_exists('mail')) {
     try {
         $subject = 'Your UniPay OTP Code';
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $headers .= "From: UniPay <$smtpFrom>\r\n";
-        $headers .= "X-Mailer: PHP/" . phpversion();
+        $headers = "MIME-Version: 1.0\r\n"
+                 . "Content-Type: text/html; charset=UTF-8\r\n"
+                 . "From: UniPay <$smtpFrom>\r\n"
+                 . "X-Mailer: PHP/" . phpversion();
 
-        $body = buildEmailHtml($otp);
-
-        if (@mail($email, $subject, $body, $headers)) {
+        if (@mail($email, $subject, buildEmailHtml($otp), $headers)) {
             $emailSent = true;
             $method    = 'mail';
         }
-    } catch (Exception $e) {
-        $method = 'mail_failed';
+    } catch (\Exception $e) {
+        $method = 'mail_error';
     }
 }
 
-// ─── STORE OTP IN SESSION (used by verify-otp.php) ─────────────
+// ─── Store OTP in session ─────────────────────────────────────
 session_start();
-$_SESSION['unipay_otp']          = $otp;
-$_SESSION['unipay_email']        = $email;
-$_SESSION['unipay_otp_expires']  = time() + 600; // 10 minutes
+$_SESSION['unipay_otp']         = $otp;
+$_SESSION['unipay_email']       = $email;
+$_SESSION['unipay_otp_expires'] = time() + 600;
 
-// ─── RESPONSE ────────────────────────────────────────────────────
+// ─── Response ─────────────────────────────────────────────────
 if ($emailSent) {
     echo json_encode([
         'success' => true,
@@ -122,7 +113,6 @@ if ($emailSent) {
         'method'  => $method
     ]);
 } else {
-    // Return the OTP in the response so the frontend can display it
     echo json_encode([
         'success'   => false,
         'message'   => 'Email delivery unavailable — demo mode active',
@@ -131,7 +121,7 @@ if ($emailSent) {
     ]);
 }
 
-// ─── HELPERS ─────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────
 function buildEmailHtml($otp) {
     return "
     <div style='font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #111827; border-radius: 16px; border: 1px solid rgba(124,58,237,0.2);'>
@@ -143,9 +133,9 @@ function buildEmailHtml($otp) {
         <div style='background: #1E293B; border-radius: 12px; padding: 24px; text-align: center; border: 1px solid rgba(124,58,237,0.15);'>
             <div style='font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #8B5CF6; font-family: monospace;'>$otp</div>
         </div>
-        <p style='color: #6B7280; font-size: 12px; text-align: center; margin-top: 24px;'>This code expires in 10 minutes. If you didn't request this, ignore this email.</p>
+        <p style='color: #6B7280; font-size: 12px; text-align: center; margin-top: 24px;'>This code expires in 10 minutes.</p>
         <div style='text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(124,58,237,0.1);'>
-            <p style='color: #6B7280; font-size: 11px;'>UniPay &mdash; Smart Routing Architecture</p>
+            <p style='color: #6B7280; font-size: 11px;'>UniPay &mdash; Smart Routing</p>
         </div>
     </div>";
 }
